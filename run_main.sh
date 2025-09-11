@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8GB
-#SBATCH --time=01:15:00
+#SBATCH --time=02:15:00
 #SBATCH --output=dask_test_%j.out
 #SBATCH --error=dask_test_%j.err
 
@@ -24,6 +24,6 @@ echo "Node: $SLURMD_NODENAME"
 echo "CPUs: $SLURM_CPUS_PER_TASK"
 
 # Run the Dask test
-python dask_test.py
+python main.py
 
 echo "Dask test completed at $(date)"

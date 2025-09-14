@@ -1,4 +1,19 @@
-from utils_3 import BL, CF_BL
+import logging, sys, traceback
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
+
+def _excepthook(exc_type, exc, tb):
+    print("Uncaught exception:", file=sys.stderr)
+    traceback.print_exception(exc_type, exc, tb, file=sys.stderr)
+
+sys.excepthook = _excepthook
+
+
+from utils.utils_3 import BL, CF_BL
 from dask_jobqueue import SLURMCluster
 from dask.distributed import Client, as_completed
 import numpy as np
@@ -108,7 +123,7 @@ else:
         memory="1GB",
         walltime="02:00:00",
         account="ilocos-umicrowd",
-        log_directory="dask_logs"
+        log_directory="dask_logs",
         job_extra=["--signal=TERM@120"]
     )
     cluster.scale(jobs=min(REMAINING_JOBS, MAX_WORKERS))
